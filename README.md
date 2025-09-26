@@ -1,5 +1,7 @@
 # Color Palette Generator
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7215283d-67a0-47e6-9f12-b18562027770/deploy-status)](https://app.netlify.com/projects/classy-torte-e3f4f7/deploys)
+
 A React reimagined version of the original [Color Palette Generator](https://codepen.io/alexandrevacassin/pen/pvjGNYJ) by alexandrevacassin.
 
 An interactive tool to generate beautiful color palettes from any base color. Pick a color using the visual color picker or randomize one, then explore complementary, split, triadic, and other harmony schemes. Copy HEX codes or full CSS variables instantly.
