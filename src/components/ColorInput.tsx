@@ -9,10 +9,13 @@ interface ColorInputProps {
   onChange: (value: LCHColor) => void;
 }
 
-export const ColorInput: React.FC<ColorInputProps> = ({ value: colorValue, onChange }) => {
+export const ColorInput: React.FC<ColorInputProps> = ({
+  value: colorValue,
+  onChange,
+}) => {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Convert LCH to hex for display and picker
   const hexValue = lchToHex(colorValue.l, colorValue.c, colorValue.h);
 
@@ -61,7 +64,8 @@ export const ColorInput: React.FC<ColorInputProps> = ({ value: colorValue, onCha
         <div className={styles.lchDisplay}>
           <span className={styles.lchLabel}>LCH</span>
           <span className={styles.lchValues}>
-            {Math.round(colorValue.l)} {Math.round(colorValue.c)} {Math.round(colorValue.h)}°
+            {Math.round(colorValue.l)} {Math.round(colorValue.c)}{' '}
+            {Math.round(colorValue.h)}°
           </span>
         </div>
       </div>
