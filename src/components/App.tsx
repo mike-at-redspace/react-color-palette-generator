@@ -21,7 +21,6 @@ export const App: React.FC = () => {
 
   const { copyLchValues, copyCssVariables, copySingleColor } = useCopyActions(
     gridItems,
-    baseColor,
     showToast
   );
 
