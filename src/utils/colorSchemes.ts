@@ -6,7 +6,7 @@ import type {
   BaseColor,
 } from '@/types';
 import { clamp, mod } from './math';
-import { parseColor, rgbToLch, lchToHex } from './colorConversion';
+import { lchToHex } from './colorConversion';
 
 /**
  * Adjusts LCH color values by the given deltas

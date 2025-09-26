@@ -6,7 +6,7 @@ import styles from './TabSelector.module.css';
 
 interface TabSelectorProps {
   activeScheme: ColorSchemeType;
-  onSchemeChange: (scheme: ColorSchemeType) => void;
+  onSchemeChange: (_scheme: ColorSchemeType) => void;
   baseColor: LCHColor;
 }
 

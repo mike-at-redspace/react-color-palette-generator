@@ -5,7 +5,7 @@ import { copyToClipboard } from '@/utils';
 export function useCopyActions(
   gridItems: GridItem[],
   baseColor: string,
-  showToast: (message: string) => void
+  showToast: (_message: string) => void
 ) {
   const copyLchValues = useCallback(async () => {
     const lchValues = gridItems.map(

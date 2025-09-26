@@ -5,7 +5,7 @@ import styles from './ColorCell.module.css';
 
 interface ColorCellProps {
   item: GridItem;
-  onCopy: (lchString: string) => void;
+  onCopy: (_lchString: string) => void;
 }
 
 export const ColorCell: React.FC<ColorCellProps> = ({ item, onCopy }) => {
