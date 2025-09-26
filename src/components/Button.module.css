@@ -1,0 +1,22 @@
+.button {
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid rgb(230, 230, 230);
+  background: white;
+  color: #191919;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background: #f8f9fa;
+}
+
+.randomButton {
+  padding: 16px 16px;
+}

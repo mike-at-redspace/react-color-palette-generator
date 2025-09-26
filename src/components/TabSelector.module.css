@@ -1,0 +1,27 @@
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  background: rgba(0, 0, 0, 0.1);
+  color: #191919;
+  transition: all 0.2s ease;
+}
+
+.tab.active {
+  background: #191919;
+  color: white;
+}
+
+.tab:hover:not(.active) {
+  background: rgba(0, 0, 0, 0.15);
+}
