@@ -1,13 +1,20 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { ColorSchemeType, GridItem } from '@/types';
+import type { ColorSchemeType, GridItem, LCHColor } from '@/types';
 import {
   generateColorSchemes,
   getUniqueColors,
-  generateRandomHex,
+  generateRandomLch,
 } from '@/utils';
+import { parseColor, rgbToLch } from '@/utils/colorConversion';
 
-export function useColorPalette(initialColor = '#007bff') {
-  const [baseColor, setBaseColor] = useState(initialColor);
+export function useColorPalette(initialColor: LCHColor | string = '#007bff') {
+  // Convert initial color to LCH if it's a string
+  const initialLch =
+    typeof initialColor === 'string'
+      ? rgbToLch(parseColor(initialColor))
+      : initialColor;
+
+  const [baseColor, setBaseColor] = useState<LCHColor>(initialLch);
   const [activeScheme, setActiveScheme] = useState<ColorSchemeType>('split');
 
   // Generate color schemes whenever base color changes
@@ -23,11 +30,17 @@ export function useColorPalette(initialColor = '#007bff') {
       return [
         {
           hex: colorSchemes.base.hex,
+          lch: {
+            l: colorSchemes.base.l,
+            c: colorSchemes.base.c,
+            h: colorSchemes.base.h,
+          },
           category: 'base',
           varName: '--color-base',
         },
         ...uniqueColors.map((color, index) => ({
           hex: color.hex,
+          lch: color.lch,
           category: color.category,
           varName: `--color-${String(index + 1).padStart(2, '0')}`,
         })),
@@ -38,11 +51,17 @@ export function useColorPalette(initialColor = '#007bff') {
     return [
       {
         hex: colorSchemes.base.hex,
+        lch: {
+          l: colorSchemes.base.l,
+          c: colorSchemes.base.c,
+          h: colorSchemes.base.h,
+        },
         category: 'base',
         varName: '--color-base',
       },
       ...schemeColors.map((color, index) => ({
         hex: color.hex,
+        lch: color.lch,
         category: color.category,
         varName: `--color-${String(index + 1).padStart(2, '0')}`,
       })),
@@ -50,12 +69,12 @@ export function useColorPalette(initialColor = '#007bff') {
   }, [colorSchemes, activeScheme]);
 
   const generateRandomColor = useCallback(() => {
-    const newColor = generateRandomHex();
+    const newColor = generateRandomLch();
     setBaseColor(newColor);
     return newColor;
   }, []);
 
-  const updateBaseColor = useCallback((color: string) => {
+  const updateBaseColor = useCallback((color: LCHColor) => {
     setBaseColor(color);
   }, []);
 

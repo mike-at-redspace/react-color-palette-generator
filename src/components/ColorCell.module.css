@@ -13,7 +13,7 @@
 .code {
   font-weight: 700;
   letter-spacing: 0.01em;
-  font-size: 2rem;
+  font-size: 1rem;
   transform: rotate(-18deg);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }

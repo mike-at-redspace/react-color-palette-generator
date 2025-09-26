@@ -5,7 +5,7 @@ import styles from './ColorCell.module.css';
 
 interface ColorCellProps {
   item: GridItem;
-  onCopy: (hex: string) => void;
+  onCopy: (lchString: string) => void;
 }
 
 export const ColorCell: React.FC<ColorCellProps> = ({ item, onCopy }) => {
@@ -15,7 +15,9 @@ export const ColorCell: React.FC<ColorCellProps> = ({ item, onCopy }) => {
   const buttonTextColor = textColor === '#FFFFFF' ? '#fff' : '#0f172a';
 
   const handleCopy = () => {
-    onCopy(item.hex);
+    onCopy(
+      `LCH(${item.lch.l.toFixed(0)}, ${item.lch.c.toFixed(0)}, ${item.lch.h.toFixed(0)})`
+    );
   };
 
   return (
@@ -27,7 +29,8 @@ export const ColorCell: React.FC<ColorCellProps> = ({ item, onCopy }) => {
       }}
     >
       <div className={styles.code} style={{ color: textColor }}>
-        {item.hex}
+        LCH({item.lch.l.toFixed(0)}, {item.lch.c.toFixed(0)},{' '}
+        {item.lch.h.toFixed(0)})
       </div>
       <div className={styles.var} style={{ color: textColor }}>
         {item.varName}

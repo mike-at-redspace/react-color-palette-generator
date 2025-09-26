@@ -1,4 +1,4 @@
-import type { RGBColor, HSLColor } from '@/types';
+import type { RGBColor, HSLColor, LCHColor } from '@/types';
 import { clamp, mod } from './math';
 
 /**
@@ -143,10 +143,103 @@ export function hslToRgb(h: number, s: number, l: number): RGBColor {
 }
 
 /**
- * Converts HSL values to hex string
+ * Converts RGB values to LCH (Lightness, Chroma, Hue)
+ * Uses the sRGB to Lab conversion via XYZ color space
  */
-export function hslToHex(h: number, s: number, l: number): string {
-  return rgbToHex(hslToRgb(h, s, l));
+export function rgbToLch({ r, g, b }: RGBColor): LCHColor {
+  // Normalize RGB values to 0-1 range
+  const rNorm = r / 255;
+  const gNorm = g / 255;
+  const bNorm = b / 255;
+
+  // Convert sRGB to linear RGB
+  const linearR =
+    rNorm <= 0.04045 ? rNorm / 12.92 : Math.pow((rNorm + 0.055) / 1.055, 2.4);
+  const linearG =
+    gNorm <= 0.04045 ? gNorm / 12.92 : Math.pow((gNorm + 0.055) / 1.055, 2.4);
+  const linearB =
+    bNorm <= 0.04045 ? bNorm / 12.92 : Math.pow((bNorm + 0.055) / 1.055, 2.4);
+
+  // Convert to XYZ using sRGB matrix
+  const x = linearR * 0.4124564 + linearG * 0.3575761 + linearB * 0.1804375;
+  const y = linearR * 0.2126729 + linearG * 0.7151522 + linearB * 0.072175;
+  const z = linearR * 0.0193339 + linearG * 0.119192 + linearB * 0.9503041;
+
+  // Convert XYZ to Lab using D65 illuminant
+  const xn = x / 0.95047;
+  const yn = y / 1.0;
+  const zn = z / 1.08883;
+
+  const fx = xn > 0.008856 ? Math.pow(xn, 1 / 3) : 7.787 * xn + 16 / 116;
+  const fy = yn > 0.008856 ? Math.pow(yn, 1 / 3) : 7.787 * yn + 16 / 116;
+  const fz = zn > 0.008856 ? Math.pow(zn, 1 / 3) : 7.787 * zn + 16 / 116;
+
+  const l = 116 * fy - 16;
+  const a = 500 * (fx - fy);
+  const labB = 200 * (fy - fz);
+
+  // Convert Lab to LCH
+  const c = Math.sqrt(a * a + labB * labB);
+  let h = Math.atan2(labB, a) * (180 / Math.PI);
+  if (h < 0) h += 360;
+
+  return {
+    l: Math.round(l * 100) / 100,
+    c: Math.round(c * 100) / 100,
+    h: Math.round(h * 100) / 100,
+  };
+}
+
+/**
+ * Converts LCH values to RGB
+ */
+export function lchToRgb({ l, c, h }: LCHColor): RGBColor {
+  // Convert LCH to Lab
+  const labA = c * Math.cos((h * Math.PI) / 180);
+  const labB = c * Math.sin((h * Math.PI) / 180);
+
+  // Convert Lab to XYZ
+  const fy = (l + 16) / 116;
+  const fx = labA / 500 + fy;
+  const fz = fy - labB / 200;
+
+  const x =
+    (fx > 0.206897 ? Math.pow(fx, 3) : (fx - 16 / 116) / 7.787) * 0.95047;
+  const y = (fy > 0.206897 ? Math.pow(fy, 3) : (fy - 16 / 116) / 7.787) * 1.0;
+  const z =
+    (fz > 0.206897 ? Math.pow(fz, 3) : (fz - 16 / 116) / 7.787) * 1.08883;
+
+  // Convert XYZ to linear RGB
+  const linearR = x * 3.2404542 + y * -1.5371385 + z * -0.4985314;
+  const linearG = x * -0.969266 + y * 1.8760108 + z * 0.041556;
+  const linearB = x * 0.0556434 + y * -0.2040259 + z * 1.0572252;
+
+  // Convert linear RGB to sRGB
+  const r =
+    linearR <= 0.0031308
+      ? 12.92 * linearR
+      : 1.055 * Math.pow(linearR, 1 / 2.4) - 0.055;
+  const g =
+    linearG <= 0.0031308
+      ? 12.92 * linearG
+      : 1.055 * Math.pow(linearG, 1 / 2.4) - 0.055;
+  const b =
+    linearB <= 0.0031308
+      ? 12.92 * linearB
+      : 1.055 * Math.pow(linearB, 1 / 2.4) - 0.055;
+
+  return {
+    r: Math.round(clamp(r * 255, 0, 255)),
+    g: Math.round(clamp(g * 255, 0, 255)),
+    b: Math.round(clamp(b * 255, 0, 255)),
+  };
+}
+
+/**
+ * Converts LCH values to hex string
+ */
+export function lchToHex(l: number, c: number, h: number): string {
+  return rgbToHex(lchToRgb({ l, c, h }));
 }
 
 /**

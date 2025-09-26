@@ -10,18 +10,24 @@ export interface HSLColor {
   l: number;
 }
 
+export interface LCHColor {
+  l: number; // Lightness (0-100)
+  c: number; // Chroma (0-~150)
+  h: number; // Hue (0-360)
+}
+
 export interface ColorItem {
   hex: string;
-  hsl: HSLColor;
+  lch: LCHColor;
   category: string;
   varName: string;
 }
 
 export interface BaseColor {
   hex: string;
-  h: number;
-  s: number;
   l: number;
+  c: number;
+  h: number;
 }
 
 export interface ColorSchemes {
@@ -38,12 +44,13 @@ export type ColorSchemeType = keyof Omit<ColorSchemes, 'base'> | 'all';
 
 export interface ColorAdjustment {
   dh?: number;
-  ds?: number;
+  dc?: number;
   dl?: number;
 }
 
 export interface GridItem {
   hex: string;
+  lch: LCHColor;
   category: string;
   varName: string;
 }

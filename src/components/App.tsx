@@ -19,7 +19,7 @@ export const App: React.FC = () => {
 
   const { toast, showToast } = useToast();
 
-  const { copyHexValues, copyCssVariables, copySingleColor } = useCopyActions(
+  const { copyLchValues, copyCssVariables, copySingleColor } = useCopyActions(
     gridItems,
     baseColor,
     showToast
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
           <RandomButton onClick={generateRandomColor} />
           <div className={styles.controlsRight}>
             <Button onClick={copyCssVariables}>Copy CSS</Button>
-            <Button onClick={copyHexValues}>Copy HEX</Button>
+            <Button onClick={copyLchValues}>Copy LCH</Button>
           </div>
         </div>
 

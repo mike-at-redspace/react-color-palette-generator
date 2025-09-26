@@ -1,13 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import type { ColorSchemeType } from '@/types';
-import { getIdealTextColor } from '@/utils';
+import type { ColorSchemeType, LCHColor } from '@/types';
+import { getIdealTextColor, lchToHex } from '@/utils';
 import styles from './TabSelector.module.css';
 
 interface TabSelectorProps {
   activeScheme: ColorSchemeType;
   onSchemeChange: (scheme: ColorSchemeType) => void;
-  baseColor: string;
+  baseColor: LCHColor;
 }
 
 const schemes: Array<{ key: ColorSchemeType; label: string }> = [
@@ -24,12 +24,15 @@ export const TabSelector: React.FC<TabSelectorProps> = ({
   onSchemeChange,
   baseColor,
 }) => {
+  // Convert LCH to hex for background color and text color calculation
+  const baseColorHex = lchToHex(baseColor.l, baseColor.c, baseColor.h);
+
   return (
     <div className={styles.tabs}>
       {schemes.map(({ key, label }) => {
         const isActive = activeScheme === key;
-        const backgroundColor = isActive ? baseColor : undefined;
-        const color = isActive ? getIdealTextColor(baseColor) : undefined;
+        const backgroundColor = isActive ? baseColorHex : undefined;
+        const color = isActive ? getIdealTextColor(baseColorHex) : undefined;
 
         return (
           <button

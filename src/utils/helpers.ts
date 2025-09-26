@@ -12,9 +12,12 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 }
 
 /**
- * Generates a random hex color
+ * Generates a random LCH color with reasonable ranges
  */
-export function generateRandomHex(): string {
-  const randomInt = Math.floor(Math.random() * 0xffffff);
-  return '#' + randomInt.toString(16).padStart(6, '0');
+export function generateRandomLch(): { l: number; c: number; h: number } {
+  return {
+    l: Math.random() * 80 + 20, // Lightness: 20-100
+    c: Math.random() * 100 + 20, // Chroma: 20-120
+    h: Math.random() * 360, // Hue: 0-360
+  };
 }

@@ -5,7 +5,7 @@ import styles from './App.module.css';
 
 interface ColorPaletteProps {
   gridItems: GridItem[];
-  onCopyColor: (hex: string) => void;
+  onCopyColor: (lchString: string) => void;
 }
 
 export const ColorPalette: React.FC<ColorPaletteProps> = ({
