@@ -1,29 +1,78 @@
-.tabs {
-  display: flex;
-  gap: 8px;
+.container {
+  position: relative;
+}
+
+.fieldset {
+  border: 0;
+  position: relative;
+}
+
+.fields {
+  position: relative;
+  display: inline-flex;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.tab {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
+.legend {
+  font-size: 0.875rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  font-variant: small-caps;
+  translate: 1ch 0;
+  color: #666;
+}
+
+.label {
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, #333, #fff 80%);
   cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  background: rgba(0, 0, 0, 0.08);
-  color: #333;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  transition-property: color, background;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  user-select: none;
+  position: relative;
+  z-index: 1;
 }
 
-.tab.active {
-  /* Background and color are set via inline styles */
-  border: 1px solid rgba(0, 0, 0, 0.2);
+.label:hover {
+  background: color-mix(in srgb, #333, transparent 95%);
 }
 
-.tab:hover:not(.active) {
-  background: rgba(0, 0, 0, 0.12);
-  border-color: rgba(0, 0, 0, 0.15);
+.label:has(input:checked) {
+  background: transparent;
+  color: #fff;
+  border-color: transparent;
+}
+
+.pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 100px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(0) translateY(0);
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+}
+
+.radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
